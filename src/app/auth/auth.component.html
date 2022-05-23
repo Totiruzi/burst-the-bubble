@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>Bubble</h1>
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput [formControl]="email" placeholder="Email" required/>
+    <mat-icon matSuffix>email</mat-icon>
+    <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+  </mat-form-field>
+  
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput [formControl]="password" placeholder="Password" />
+    <mat-icon matSuffix>lock</mat-icon>
+    <mat-error *ngIf="password.invalid">{{ getPasswordErrorMessage() }}</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onSubmit()">{{submitLabel}}</button>
+</div>
