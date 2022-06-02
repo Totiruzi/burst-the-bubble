@@ -1,8 +1,11 @@
 .header {
   display: flex;
-  justify-content: space-beween;
+  justify-content: space-between;
 }
 
 h1 {
   font-size: xx-large;
+}
+ul {
+  list-style-type: none;
 }
