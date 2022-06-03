@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(createUserInput: CreateUserInput) {
-    this.loginService.login(createUserInput).subscribe(() => {})
+    this.loginService.login(createUserInput).subscribe(() => {
+      this.router.navigate(['/']);
+    })
   }
 }

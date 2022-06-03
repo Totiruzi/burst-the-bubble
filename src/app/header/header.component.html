@@ -11,5 +11,8 @@
           <a routerLink="/login">Login</a>
         </ng-template>
       </li>
+      <li *ngIf="(isLoggedIn$ | async) !== true">
+        <a routerLink="/signup">Signup</a>
+      </li>
     </ul>
 </mat-toolbar>
