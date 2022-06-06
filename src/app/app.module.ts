@@ -12,6 +12,7 @@ import { LoginModule } from './auth/login/login.module';
 import { SignupModule } from './auth/signup/signup.module';
 import { InMemoryCache } from '@apollo/client/core';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     ApolloModule,
     HeaderModule,
     LoginModule,
-    SignupModule
+    SignupModule,
+    HomeModule
   ],
   providers: [
     {
