@@ -2,7 +2,7 @@
   <h2>Add Link</h2>
   <mat-form-field appearance="outline">
     <mat-label>Link</mat-label>
-    <input type="text" matInput [formControl]="link" required>
+    <input type="text" matInput [formControl]="link" required />
     <mat-error *ngIf="link.invalid">
       {{getLinkErrorMessage()}}
     </mat-error>

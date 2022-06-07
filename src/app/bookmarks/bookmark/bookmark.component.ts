@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import {  Bookmark, BookmarkGQL, Link, LinksGQL } from './../../../generated-types';
 import { switchMap } from 'rxjs';
-import { Bookmark, BookmarkGQL } from 'src/generated-types';
 import { AddLinkComponent } from './add-link/add-link.component';
 
 @Component({
@@ -11,22 +11,30 @@ import { AddLinkComponent } from './add-link/add-link.component';
   styleUrls: ['./bookmark.component.scss']
 })
 export class BookmarkComponent implements OnInit {
-  bookmark: Bookmark
+  bookmark: Bookmark;
+  links: Link[];
+  isLoading = true;
 
   constructor(
     private readonly bookmarkGql: BookmarkGQL,
     private readonly router: ActivatedRoute,
+    private readonly linksGql: LinksGQL,
     private readonly dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.router.params.pipe(
-      switchMap(((params) => {
+      switchMap((params) => {
         return this.bookmarkGql.watch({_id: params['id']}).valueChanges
-      }))
+      }),
+      switchMap((result) => {
+        this.bookmark = result.data.bookmark
+        return this.linksGql.watch({urls: result.data.bookmark.links}).valueChanges
+      }),
     )
     .subscribe((result) => {
-      this.bookmark = result.data.bookmark
+      this.isLoading = result.loading;
+      this.links = result.data.links;
     })
   }
 
@@ -34,7 +42,12 @@ export class BookmarkComponent implements OnInit {
     this.dialog.open(
       AddLinkComponent, {
         data: {bookmark: this.bookmark}
-      })
+      }
+    )
+  }
+
+  onLinkClicked(url: string) {
+    window.open(url, '_blank');
   }
 
 }

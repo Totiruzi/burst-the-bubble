@@ -1,5 +1,7 @@
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Bookmark, UpdateBookmarkGQL, BookmarkDocument } from './../../../../generated-types';
 
 @Component({
   selector: 'app-add-link',
@@ -10,7 +12,12 @@ export class AddLinkComponent implements OnInit {
 
   link = new FormControl('', [Validators.required]);
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) 
+    private readonly data: {bookmark: Bookmark},
+    private readonly dialogRef: MatDialogRef<AddLinkComponent>,
+    private readonly updateBookmarkGql: UpdateBookmarkGQL
+    ) { }
 
   ngOnInit(): void {
   }
@@ -19,5 +26,20 @@ export class AddLinkComponent implements OnInit {
     return this.link.hasError('required') ? 'You must enter a vbalue' : '';
   }
 
-  addLink() {}
+  addLink() {
+    this.updateBookmarkGql.mutate({
+      updateBookmarkData: {
+        _id: this.data.bookmark._id,
+        links: [...this.data.bookmark.links, this.link.value],
+      },
+    }, {
+      refetchQueries: [{
+        query: BookmarkDocument,
+        variables: {_id: this.data.bookmark._id}
+      }],
+    })
+    .subscribe(() => {
+      this.dialogRef.close();
+    })
+  }
 }
