@@ -13,6 +13,7 @@ import { SignupModule } from './auth/signup/signup.module';
 import { InMemoryCache } from '@apollo/client/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
+import { BookmarkModule } from './bookmarks/bookmark/bookmark.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HomeModule } from './home/home.module';
     HeaderModule,
     LoginModule,
     SignupModule,
-    HomeModule
+    HomeModule,
+    BookmarkModule
   ],
   providers: [
     {
